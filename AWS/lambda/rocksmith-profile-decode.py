@@ -3,7 +3,7 @@ import json
 import urllib
 import boto3
 
-print('Loading function')
+print('Loading lambda function')
 s3 = boto3.client('s3')
 
 def pad(data, blocksize=16):
@@ -41,10 +41,10 @@ def lambda_handler(event, context):
         cipher = AES.new( aesprofilekey.decode('hex'), AES.MODE_ECB )
 	profilejson = zlib.decompress( cipher.decrypt(pad(content[20:])) )
 	assert(size == len(profilejson))
-
-	s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
+	#s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
+	s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson, ACL='public-read')
         # debug:
-        # print(profilejson)
+	# print(profilejson[:-1])
         return response['ContentType']
     except Exception as e:
         print(e)

@@ -10,7 +10,9 @@ dependencies:
 test:
   pre:
     - aws lambda update-function-code
-        --region eu-west-1
+        --region $REGION
         --function-name uploaded-a-profile
         --zip-file fileb://AWS/lambda/lambda.zip
         --publish
+    - sed "s/BUCKETNAME/$BUCKETNAME/" -i www/index.html
+    - aws s3 cp www/index.html s3://$BUCKETNAME/ --region $REGION --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
