@@ -28,7 +28,7 @@ function wait_for_outfile(fileurl) {
 function editeur(fileurl, json) {
     msgBox.innerHTML = "<a href="+fileurl+"</a>";
     editBox = document.getElementById('editBox');
-    editBox.innerHTML = '<div id="editor" style="height: 450px; width: 600px;"></div>';
+    editBox.innerHTML = '<div id="editor" style="height: 750px; width: 700px;"></div>';
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/json");
