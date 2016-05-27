@@ -124,7 +124,7 @@ window.onload = function() {
             progressOuter.style.display = 'none'; // hide progress bar when upload is completed
 
             msgBox.innerHTML = '<strong>' + escapeTags( filename ) + '</strong>' + ' successfully uploaded.';
-            var decodedprofile = "https://s3-eu-west-1.amazonaws.com/BUCKETNAME/upload/" + randomid + "_" + filename +".json";
+            var decodedprofile = "https://s3-REGION.amazonaws.com/BUCKETNAME/upload/" + randomid + "_" + filename +".json";
             setTimeout( wait_for_outfile(decodedprofile), 2000);
           },
         onError: function() {
