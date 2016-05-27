@@ -40,11 +40,11 @@ def lambda_handler(event, context):
         cipher = AES.new( aesprofilekey.decode('hex'), AES.MODE_ECB )
 	profilejson = zlib.decompress( cipher.decrypt(pad(content[20:])) )
 	assert(size == len(profilejson))
-	s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
+	#s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
 	gzip_compress = zlib.compressobj( zlib.Z_DEFAULT_COMPRESSION, zlib.DEFLATED, zlib.MAX_WBITS | 16 )
 	gzip_data = gzip_compress.compress(profilejson[:-1]) + gzip_compress.flush()
-	####s3.put_object(Bucket=bucket, Key=keyjson, Body=gzip_data, ContentEncoding='gzip', ACL='public-read')
 	#s3.put_object(Bucket=bucket, Key=keyjson, Body=gzip_data, ContentEncoding='gzip', ContentType='application/json', ACL='public-read')
+	s3.put_object(Bucket=bucket, Key=keyjson, Body=gzip_data, ContentEncoding='gzip', ContentType='binary/octet-stream', ACL='public-read')
         # debug:
 	# print(profilejson[:-1])
         return response['ContentType']
