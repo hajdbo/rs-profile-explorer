@@ -16,3 +16,4 @@ test:
         --publish
     - sed "s/BUCKETNAME/$BUCKETNAME/" -i www/index.html
     - aws s3 cp www/index.html s3://$BUCKETNAME/ --region $REGION --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+    - aws s3 sync ./www s3://$BUCKETNAME/ --region $REGION --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
