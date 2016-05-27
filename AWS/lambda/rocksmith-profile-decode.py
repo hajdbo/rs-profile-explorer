@@ -27,7 +27,6 @@ def lambda_handler(event, context):
             return response['ContentType']
         ## on commence
         content = response['Body'].read()
-        # object.get()["Body"].read()
         import struct
         header = struct.unpack( '<ccccIQI', content[:20] )
         print( header )
@@ -41,8 +40,7 @@ def lambda_handler(event, context):
         cipher = AES.new( aesprofilekey.decode('hex'), AES.MODE_ECB )
 	profilejson = zlib.decompress( cipher.decrypt(pad(content[20:])) )
 	assert(size == len(profilejson))
-	#s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
-	s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson, ACL='public-read')
+	s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
         # debug:
 	# print(profilejson[:-1])
         return response['ContentType']

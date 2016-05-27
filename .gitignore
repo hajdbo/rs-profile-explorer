@@ -60,3 +60,8 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+AWS/lambda/Crypto/
+AWS/lambda/pycrypto-2.6.1.dist-info/
+deploy.sh
+
