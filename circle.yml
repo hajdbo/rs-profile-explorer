@@ -5,14 +5,12 @@ dependencies:
   pre:
     - if [[ ! -e AWS/lambda/Crypto/Cipher/AES.py ]]; then wget -q https://github.com/Doerge/awslambda-pycrypto/archive/master.zip && unzip master.zip && mv awslambda-pycrypto-master/Crypto awslambda-pycrypto-master/pycrypto-2.6.1.dist-info AWS/lambda/; fi
     - cd AWS/lambda/ && zip -qr lambda.zip Crypto pycrypto-2.6.1.dist-info rocksmith-profile-decode.py
-    - ls AWS/lambda/
-    - unzip -l AWS/lambda/lambda.zip
     - cp AWS/lambda/lambda.zip $CIRCLE_ARTIFACTS/
 
 test:
   pre:
-    - aws lambda update-function-code \
-      --region eu-west-1 \
-      --function-name uploaded-a-profile \
-      --zip-file fileb://AWS/lambda/lambda.zip \
-      --publish
+    - aws lambda update-function-code
+        --region eu-west-1
+        --function-name uploaded-a-profile
+        --zip-file fileb://AWS/lambda/lambda.zip
+        --publish
