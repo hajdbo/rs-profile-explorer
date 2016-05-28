@@ -24,7 +24,7 @@ deployment:
     commands:
       - aws lambda update-function-code
           --region $REGION
-          --function-name uploaded-a-profile
+          --function-name profile-uploaded
           --zip-file fileb://AWS/lambda/lambda.zip
           --publish
       - aws s3 sync ./www s3://$BUCKETNAME/ --region $REGION --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
