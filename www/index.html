@@ -18,11 +18,13 @@ function makeid()
 </script>
 
 <script>
-function wait_for_outfile(fileurl, nexttimeout) {
-    nexttimeout = nexttimout || 2000;
+//function wait_for_outfile(fileurl, nexttimeout) {
+    //nexttimeout = nexttimout || 2000;
+function wait_for_outfile(fileurl) {
     var xhr = $.ajax( fileurl )
     .done(function(json) { editeur(fileurl, json); })
-    .fail(function() { setTimeout( function() { wait_for_outfile(fileurl); } , nexttimeout + 1000);  })
+    .fail(function() { setTimeout( function() { wait_for_outfile(fileurl); } , 2000);  })
+    //.fail(function() { setTimeout( function() { wait_for_outfile(fileurl); } , nexttimeout + 1000);  })
 }
 
 
