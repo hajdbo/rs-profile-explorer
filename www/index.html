@@ -18,10 +18,11 @@ function makeid()
 </script>
 
 <script>
-function wait_for_outfile(fileurl) {
+function wait_for_outfile(fileurl, nexttimeout) {
+    nexttimeout = nexttimout || 2000;
     var xhr = $.ajax( fileurl )
     .done(function(json) { editeur(fileurl, json); })
-    .fail(function() { setTimeout( function() { wait_for_outfile(fileurl); } , 2000);  })
+    .fail(function() { setTimeout( function() { wait_for_outfile(fileurl); } , nexttimeout + 1000);  })
 }
 
 
@@ -131,7 +132,7 @@ window.onload = function() {
             progressOuter.style.display = 'none';
             msgBox.innerHTML = 'Unable to upload file';
           }
-	});
+    });
 };
 </script>
 
