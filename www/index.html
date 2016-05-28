@@ -114,8 +114,9 @@ window.onload = function() {
         onSubmit: function() {
             var self = this;
             self.setData({
-                key: 'upload/'+ randomid +'_${filename}',
-                acl: 'public-read-write'
+                key: 'upload/'+ randomid +'_${filename}'
+                //key: 'upload/'+ randomid +'_${filename}',
+                //acl: 'public-read-write'
             });
             msgBox.innerHTML = ''; // empty the message box
             btn.innerHTML = 'Uploading...'; // change button text to "Uploading..."
