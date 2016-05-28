@@ -19,7 +19,7 @@ def lambda_handler(event, context):
     print( "key:" + key )
     if ( key.endswith('/') ): # sinon quand j'efface un test ca declenche avec key=upload/
         return key
-    keyjson = key + ".json"
+    keyjson = key.replace('upload/','decoded/') + ".json"
     try:
         response = s3.get_object( Bucket=bucket, Key=key )
         print("CONTENT TYPE: " + response['ContentType'])
@@ -33,20 +33,20 @@ def lambda_handler(event, context):
         if ( not (header[0]=='E' and header[1]=='V' and header[2]=='A' and header[3]=='S') ):
             s3.put_object(Bucket=bucket, Key=keyjson, Body="The file is not a Rocksmith profile.", ACL='public-read')
             return response['ContentType']
-	size = struct.unpack('<L', content[16:20])[0]
+        size = struct.unpack('<L', content[16:20])[0]
         from Crypto.Cipher import AES
         import zlib
         aesprofilekey = '728B369E24ED0134768511021812AFC0A3C25D02065F166B4BCC58CD2644F29E'
         cipher = AES.new( aesprofilekey.decode('hex'), AES.MODE_ECB )
-	profilejson = zlib.decompress( cipher.decrypt(pad(content[20:])) )
-	assert(size == len(profilejson))
-	#s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
-	gzip_compress = zlib.compressobj( zlib.Z_DEFAULT_COMPRESSION, zlib.DEFLATED, zlib.MAX_WBITS | 16 )
-	gzip_data = gzip_compress.compress(profilejson[:-1]) + gzip_compress.flush()
-	#s3.put_object(Bucket=bucket, Key=keyjson, Body=gzip_data, ContentEncoding='gzip', ContentType='application/json', ACL='public-read')
-	s3.put_object(Bucket=bucket, Key=keyjson, Body=gzip_data, ContentEncoding='gzip', ContentType='binary/octet-stream', ACL='public-read')
+        profilejson = zlib.decompress( cipher.decrypt(pad(content[20:])) )
+        assert(size == len(profilejson))
+        #s3.put_object(Bucket=bucket, Key=keyjson, Body=profilejson[:-1], ACL='public-read')
+        gzip_compress = zlib.compressobj( zlib.Z_DEFAULT_COMPRESSION, zlib.DEFLATED, zlib.MAX_WBITS | 16 )
+        gzip_data = gzip_compress.compress(profilejson[:-1]) + gzip_compress.flush()
+        #s3.put_object(Bucket=bucket, Key=keyjson, Body=gzip_data, ContentEncoding='gzip', ContentType='application/json', ACL='public-read')
+        s3.put_object(Bucket=bucket, Key=keyjson, Body=gzip_data, ContentEncoding='gzip', ContentType='binary/octet-stream', ACL='public-read')
         # debug:
-	# print(profilejson[:-1])
+        # print(profilejson[:-1])
         return response['ContentType']
     except Exception as e:
         print(e)
