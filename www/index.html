@@ -102,7 +102,8 @@ window.onload = function() {
 
   var uploader = new ss.SimpleUpload({
         button: btn,
-        url: 'http://BUCKETNAME.s3.amazonaws.com/',
+        //url: 'http://BUCKETNAME.s3.amazonaws.com/',
+        url: 'https://s3-REGION.amazonaws.com/BUCKETNAME/',
         name: 'file',
         multipart: true,
         hoverClass: 'hover',
@@ -114,8 +115,7 @@ window.onload = function() {
         onSubmit: function() {
             var self = this;
             self.setData({
-                key: 'upload/'+ randomid +'_${filename}'
-                //key: 'upload/'+ randomid +'_${filename}',
+                key: 'upload/'+ randomid +'_${filename}',
                 //acl: 'public-read-write'
             });
             msgBox.innerHTML = ''; // empty the message box
