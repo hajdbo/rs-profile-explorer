@@ -18,13 +18,10 @@ function makeid()
 </script>
 
 <script>
-//function wait_for_outfile(fileurl, nexttimeout) {
-    //nexttimeout = nexttimout || 2000;
 function wait_for_outfile(fileurl) {
     var xhr = $.ajax( fileurl )
     .done(function(json) { editeur(fileurl, json); })
     .fail(function() { setTimeout( function() { wait_for_outfile(fileurl); } , 2000);  })
-    //.fail(function() { setTimeout( function() { wait_for_outfile(fileurl); } , nexttimeout + 1000);  })
 }
 
 
@@ -104,7 +101,6 @@ window.onload = function() {
 
   var uploader = new ss.SimpleUpload({
         button: btn,
-        //url: 'http://BUCKETNAME.s3.amazonaws.com/',
         url: 'https://s3-REGION.amazonaws.com/BUCKETNAME/',
         name: 'file',
         multipart: true,
@@ -118,7 +114,7 @@ window.onload = function() {
             var self = this;
             self.setData({
                 key: 'upload/'+ randomid +'_${filename}',
-                acl: 'public-read'
+                acl: 'bucket-owner-full-control'
             });
             msgBox.innerHTML = ''; // empty the message box
             btn.innerHTML = 'Uploading...'; // change button text to "Uploading..."
